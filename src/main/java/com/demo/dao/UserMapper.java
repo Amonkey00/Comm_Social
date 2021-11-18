@@ -22,7 +22,8 @@ public interface UserMapper {
     // Update User
     int updateUser(User user);
 
-
+    // Count User
+    int countUser();
 
 
 }

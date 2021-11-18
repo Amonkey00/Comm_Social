@@ -1,5 +1,9 @@
 package com.demo.service;
 
+import com.demo.pojo.Friend;
+import com.demo.pojo.User;
+
+import java.util.List;
 import java.util.Map;
 
 public interface UserService {
@@ -17,5 +21,19 @@ public interface UserService {
     int addFriend(int userId,int toUserId);
 
     int deleteFriend(int userId,int toUserId);
+
+    int updateUserInfo(User user);
+
+    boolean checkFriendByIds(int userId,int toUserId);
+
+    boolean checkUserExistByName(String userName);
+
+
+    User getUserById(int userId);
+
+    User getUserByName(String userName);
+
+
+    List<User> getFriendById(int userId);
 
 }

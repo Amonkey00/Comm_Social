@@ -4,8 +4,16 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.demo.dao.RecordMapper">
 
-    <select id="getUserById">
+    <select id="getUserById" resultType="user">
         select * from record where user_id = #{userId};
     </select>
 
+    <insert id="addRecord" parameterType="record">
+        insert into record values
+        (#{recordId},#{userId},#{rechargeDate},#{rechargeMoney});
+    </insert>
+
+    <select id="countRecord" resultType="_int">
+        select count(*) num from record;
+    </select>
 </mapper>

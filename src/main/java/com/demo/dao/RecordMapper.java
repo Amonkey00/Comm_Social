@@ -12,4 +12,8 @@ import java.util.List;
 public interface RecordMapper {
 
     List<Record> getRecordByUserId(@Param("userId") int userId);
+
+    int addRecord(Record record);
+
+    int countRecord();
 }
