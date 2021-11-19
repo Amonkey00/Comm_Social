@@ -1,9 +1,11 @@
 package com.demo.controller;
 
+import com.demo.annotations.UserLoginToken;
 import com.demo.pojo.Friend;
 import com.demo.pojo.Page;
 import com.demo.pojo.User;
 import com.demo.service.UserService;
+import com.demo.utils.JWTHelper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +35,10 @@ public class UserController {
         String password =  request.getParameter("keyword");
         System.out.println(userName);
         System.out.println(password);
-        if(userService.login(userName,password)>0) return "Success";
+        if(userService.login(userName,password)>0){
+            String token = JWTHelper.getToken(userName,password);
+            return "Token: "+ token +"; Success";
+        }
         return "Failed";
     }
 
@@ -45,6 +50,10 @@ public class UserController {
         String mail = request.getParameter("mail");
         String introduction = request.getParameter("introduction");
         int status=userService.register(userName,password,mail,introduction);
+        if(status>0){
+            String token = JWTHelper.getToken(userName,password);
+            return "Token: "+ token +"; Success";
+        }
         return status>0 ? "Success" : "Failed";
     }
 
@@ -161,7 +170,11 @@ public class UserController {
         return "Failed";
     }
 
-
+    @UserLoginToken
+    @GetMapping("/getMessage")
+    public String getMessage(){
+        return "JWT Token passed";
+    }
 
 
 

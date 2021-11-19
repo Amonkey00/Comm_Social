@@ -17,4 +17,5 @@ public class User {
     private String avatar;
     private String introduction;
     private int money;
+
 }

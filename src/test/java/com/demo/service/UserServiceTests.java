@@ -1,5 +1,10 @@
 package com.demo.service;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.demo.pojo.User;
+import com.demo.utils.JWTHelper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,6 +31,16 @@ public class UserServiceTests {
     @Test
     public void pathTest(){
         System.out.println(System.getProperty("user.dir"));
+    }
+
+    @Test
+    public void JwtTest(){
+        User user = userService.getUserById(1);
+        String token =JWTHelper.getToken(user.getUserName(),user.getKeyword());
+        //System.out.println(token);
+        //System.out.println(JWT.decode(token).getAudience().get(0));
+        JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(user.getKeyword())).build();
+        //System.out.println(jwtVerifier.verify(token));
     }
 
 }
