@@ -22,8 +22,12 @@ public interface UserMapper {
     // Update User
     int updateUser(User user);
 
+    // Update avator
+    int updateAvatar(@Param("userId") int userId,@Param("url") String imageUrl);
+
     // Count User
     int countUser();
+
 
 
 }

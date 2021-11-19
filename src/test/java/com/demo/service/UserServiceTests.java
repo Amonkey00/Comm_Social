@@ -12,7 +12,9 @@ public class UserServiceTests {
 
     @Test
     void getTest(){
-        System.out.println(userService.getUserById(3).getAvatar().equals("null"));
+        Object user = userService.getUserById(3);
+
+        System.out.println(user.toString());
     }
 
     @Test

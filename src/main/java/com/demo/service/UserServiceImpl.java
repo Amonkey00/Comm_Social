@@ -4,6 +4,7 @@ import com.demo.dao.FriendMapper;
 import com.demo.dao.RecordMapper;
 import com.demo.dao.UserMapper;
 import com.demo.pojo.Friend;
+import com.demo.pojo.Page;
 import com.demo.pojo.Record;
 import com.demo.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +56,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public int uploadAvatar(int userId, String url) {
-        return 0;
+        return userMapper.updateAvatar(userId,url);
     }
 
     @Override
@@ -117,7 +118,13 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public List<User> getFriendById(int userId) {
-        return friendMapper.getFriendByUserId(userId);
+    public List<User> getFriendById(Page page) {
+
+        return friendMapper.getFriendByUserId(page);
+    }
+
+    @Override
+    public int countFriendById(int userId) {
+        return friendMapper.countFriendByUserId(userId);
     }
 }

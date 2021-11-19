@@ -28,6 +28,12 @@
         where user_id = #{userId};
     </update>
 
+    <update id="updateAvatar">
+        update user
+        set avatar = #{url}
+        where user_id = #{userId};
+    </update>
+
 
     <select id="countUser" resultType="_int">
         select count(*) as num from user;

@@ -1,15 +1,20 @@
 package com.demo.controller;
 
 import com.demo.pojo.Friend;
+import com.demo.pojo.Page;
 import com.demo.pojo.User;
 import com.demo.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.ServletRequest;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -18,6 +23,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Value("${path.default-avatar-path}")
+    private String defaultAvatarPath;
 
     @PostMapping("/login")
     public String login(ServletRequest request){
@@ -66,17 +74,46 @@ public class UserController {
         return status>0 ? "Success" : "Failed";
     }
 
-    @PostMapping("/uploadImage")
-    public String uploadImage(MultipartHttpServletRequest request){
-        return "null";
+    @PostMapping("/uploadAvatar")
+    public String uploadImage(MultipartHttpServletRequest request) throws IOException {
+        int userId = Integer.parseInt(request.getParameter("userId"));
+        String path = request.getServletContext().getRealPath(defaultAvatarPath);
+        File realPath = new File(path);
+        if(!realPath.exists()){
+            realPath.mkdir();
+        }
+
+        MultipartFile avatarFile = request.getFile("image");
+        if(avatarFile==null) return "No image file selected";
+        String filename = avatarFile.getOriginalFilename();
+        String suffix = filename.substring(filename.lastIndexOf("."));
+        String imageUrl = realPath + "\\" + userId + "_image" + suffix;
+        try {
+            avatarFile.transferTo(new File(imageUrl));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        int status = userService.uploadAvatar(userId,imageUrl);
+        return status>0? "Success":"Failed";
     }
 
     @GetMapping("friends/{userId}")
-    public String getFriendsInfo(@PathVariable("userId") int userId) throws JsonProcessingException {
+    public String getFriendsInfo(@PathVariable("userId") int userId,ServletRequest request) throws JsonProcessingException {
         User user = userService.getUserById(userId);
         if(user==null)return "No such user";
-        List<User> friends = userService.getFriendById(userId);
+
+        // Page handle
+        int start = Integer.parseInt(request.getParameter("start"));
+        int count = Integer.parseInt(request.getParameter("count"));
+        int total = userService.countFriendById(userId);
+
+        Page page = new Page((start-1)*count,count);
+        page.setTotal(total);
+        page.setId(userId);
+        List<User> friends = userService.getFriendById(page);
         ObjectMapper jsonMapper = new ObjectMapper();
+        System.out.println(page.getTotalPage());
         return jsonMapper.writeValueAsString(friends);
     }
 

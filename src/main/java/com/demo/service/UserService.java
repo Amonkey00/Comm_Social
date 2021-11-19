@@ -1,6 +1,7 @@
 package com.demo.service;
 
 import com.demo.pojo.Friend;
+import com.demo.pojo.Page;
 import com.demo.pojo.User;
 
 import java.util.List;
@@ -33,7 +34,7 @@ public interface UserService {
 
     User getUserByName(String userName);
 
+    List<User> getFriendById(Page page);
 
-    List<User> getFriendById(int userId);
-
+    int countFriendById(int userId);
 }

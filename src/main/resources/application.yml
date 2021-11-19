@@ -11,3 +11,6 @@ mybatis:
   mapper-locations: classpath:mybatis/mappers/*.xml
   configuration:
     map-underscore-to-camel-case: true
+
+path:
+  default-avatar-path: \images
