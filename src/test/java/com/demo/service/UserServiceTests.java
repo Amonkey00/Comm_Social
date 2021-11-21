@@ -37,7 +37,7 @@ public class UserServiceTests {
     public void JwtTest(){
         User user = userService.getUserById(1);
         String token =JWTHelper.getToken(user.getUserName(),user.getKeyword());
-        //System.out.println(token);
+        System.out.println(token);
         //System.out.println(JWT.decode(token).getAudience().get(0));
         JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(user.getKeyword())).build();
         //System.out.println(jwtVerifier.verify(token));

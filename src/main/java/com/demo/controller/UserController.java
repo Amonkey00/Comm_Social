@@ -1,5 +1,6 @@
 package com.demo.controller;
 
+import com.demo.annotations.PassToken;
 import com.demo.annotations.UserLoginToken;
 import com.demo.pojo.Friend;
 import com.demo.pojo.Page;
@@ -56,6 +57,7 @@ public class UserController {
         }
         return status>0 ? "Success" : "Failed";
     }
+
 
     @GetMapping("/{userId}")
     public String getUserInfo(@PathVariable("userId") int userId) throws JsonProcessingException {
