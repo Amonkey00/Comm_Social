@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.sql.Date;
+
 @Data
 @AllArgsConstructor
 @ToString
@@ -13,6 +15,7 @@ public class Blog {
     private int blogId;
     private int userId;
     private String blogTitle;
+    private Date blogDate;
     private int times;
     private String blogContext;
 

@@ -6,4 +6,31 @@
 
 
 
+    <insert id="postComment" >
+        insert into comment values
+        (#{commentId},#{userId},#{blogId},#{commentContext})
+    </insert>
+
+    <delete id="deleteComment" >
+        delete from comment
+        where comment_id=#{commentId}
+    </delete>
+
+    <delete id="deleteCommentAll" >
+        delete from comment
+        where blog_id=#{blogId}
+    </delete>
+
+
+    <update id="updateComment" >
+        update comment
+        set comment_context=#{commentContext}
+        where comment_id=#{commentId}
+    </update>
+
+    <select id="getCommentById" resultType="Comment" >
+        select * from comment
+        where blog_id=#{blogId}
+    </select>
+
 </mapper>

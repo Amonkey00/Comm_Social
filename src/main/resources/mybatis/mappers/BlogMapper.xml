@@ -5,5 +5,35 @@
 <mapper namespace="com.demo.dao.BlogMapper">
 
 
+    <insert id="postBlog" parameterType="blog">
+        insert into blog values
+        (#{blogId},#{userId},#{blogTitle},#{blogContext},#{blogDate},#{times})
+    </insert>
+
+    <delete id="deleteBlog" >
+        delete from blog
+        where blog_id=#{blogId}
+    </delete>
+
+    <update id="updateBlog" >
+        update blog
+        set blog_title=#{blogTitle},
+            blog_context=#{blogContext},
+            blog_date=#{blogDate},
+            times=#{times},
+        where blog_Id=#{blogId}
+    </update>
+
+    <select id="getBlog" resultType="Blog" parameterType="page">
+        select * from blog
+        limit #{start},#{end}
+    </select>
+
+    <select id="getBlogById" resultType="Blog" parameterType="page">
+        select * from blog
+        where blog_Id=#{blogId}
+        limit #{start},#{end}
+    </select>
+
 
 </mapper>
