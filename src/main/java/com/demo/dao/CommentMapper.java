@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 @Repository
@@ -23,6 +24,9 @@ public interface CommentMapper {
     int updateComment(Comment comment);
 
     //获取一个博客下的所有评论
-    List<Comment> getCommentById(@Param("blogId")int blogId);
+    List<Object> getCommentById(@Param("blogId")int blogId);
+
+    int countComment();
+
 
 }

@@ -5,7 +5,7 @@
 <mapper namespace="com.demo.dao.BlogMapper">
 
 
-    <insert id="postBlog" parameterType="blog">
+    <insert id="postBlog" parameterType="blog" useGeneratedKeys="false">
         insert into blog values
         (#{blogId},#{userId},#{blogTitle},#{blogContext},#{blogDate},#{times})
     </insert>
@@ -19,21 +19,39 @@
         update blog
         set blog_title=#{blogTitle},
             blog_context=#{blogContext},
-            blog_date=#{blogDate},
-            times=#{times},
+            blog_date=#{blogDate}
         where blog_Id=#{blogId}
     </update>
 
     <select id="getBlog" resultType="Blog" parameterType="page">
-        select * from blog
-        limit #{start},#{end}
+        select blog_id as blogId,user_id as userId,user_name as userName,
+               avatar,
+               blog_title as blogTitle,blog_context as blogContext,
+               blog_date as blogDate,times
+        from blog natural join user
+        where blog_id in
+              (select blog_id from blog )
+        limit #{start},#{count}
     </select>
 
-    <select id="getBlogById" resultType="Blog" parameterType="page">
-        select * from blog
-        where blog_Id=#{blogId}
-        limit #{start},#{end}
+    <select id="getBlogById" resultType="Blog">
+        select blog_id as blogId,user_id as userId,user_name as userName,
+               avatar,
+               blog_title as blogTitle,blog_context as blogContext,
+               blog_date as blogDate,times
+        from blog natural join user
+        where blog_id in(select blog_id from blog
+                         where user_id=#{userId})
+          limit #{page.start},#{page.count}
     </select>
 
+    <select id="countBlog" resultType="_int">
+        select count(blog_id) as num from blog;
+    </select>
+
+    <select id="countBlogById" resultType="_int">
+        select count(blog_id) from blog
+        where user_id=#{userId}
+    </select>
 
 </mapper>

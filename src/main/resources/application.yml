@@ -1,10 +1,11 @@
 spring:
   datasource:
+    #    Li 数据库
     username: root
-#    password: root
-#    Li 数据库
     password: 526874Lyf
-
+#    username: out_root
+#    password: root
+#    url: jdbc:mysql://139.196.122.68:3306/comm_social?serverTimezone=GMT&useUnicode=true&characterEncoding=utf-8&useSSL=true
     url: jdbc:mysql://localhost:3306/comm_social?serverTimezone=GMT&useUnicode=true&characterEncoding=utf-8&useSSL=true
     driver-class-name: com.mysql.cj.jdbc.Driver
 

@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 @Repository
@@ -20,11 +21,13 @@ public interface BlogMapper {
     int updateBlog(Blog blog);
 
     //获取所有人的博客
-    List<Blog> getBlog(Page page);
+    List<Object[]> getBlog(Page page);
 
     //获取特定人的博客
-    List<Blog> getBlogById(Page page,@Param("blogId")int blogId);
+    List<Object[]> getBlogById(@Param("page")Page page,@Param("userId")int userId);
 
+    int countBlog();
 
+    int countBlogById(@Param("userId")int userId);
 
 }

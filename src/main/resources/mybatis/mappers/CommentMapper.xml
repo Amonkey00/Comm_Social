@@ -6,7 +6,7 @@
 
 
 
-    <insert id="postComment" >
+    <insert id="postComment" useGeneratedKeys="false" keyProperty="commentId">
         insert into comment values
         (#{commentId},#{userId},#{blogId},#{commentContext})
     </insert>
@@ -29,8 +29,16 @@
     </update>
 
     <select id="getCommentById" resultType="Comment" >
-        select * from comment
+        select comment_id as commentId,blog_id as blogId,
+               user_id as userId,user_name as userName,
+               avatar,
+               comment_context as commentContext
+        from comment natural join user
         where blog_id=#{blogId}
+    </select>
+
+    <select id="countComment" resultType="_int">
+        select count(comment_id) as num from comment;
     </select>
 
 </mapper>
